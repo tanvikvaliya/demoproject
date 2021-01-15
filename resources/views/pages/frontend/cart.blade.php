@@ -30,6 +30,7 @@
 						</tr>
 					</thead>
 					<tbody>
+						@if(!empty($cartitem))
 						@foreach($cartitem as $item)
 						<tr>
 							<td class="cart_product">
@@ -39,7 +40,6 @@
 							</td>
 							<td class="cart_description">
 								<h4><a href="">{{$item['name']}}</a></h4>
-								<p>Web ID: 1089772</p>
 							</td>
 							<td class="cart_price">
 								<p>₹ {{$item['price']}}</p>
@@ -52,13 +52,14 @@
 								</div>
 							</td>
 							<td class="cart_total">
-								<p class="cart_total_price">₹ </p>
+								<p class="cart_total_price">₹ {{$item['price']}} </p>
 							</td>
 							<td class="cart_delete">
-								<a class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
+								<a data-value="{{$item['rowId']}}" class="cart_quantity_delete" href=""><i class="fa fa-times"></i></a>
 							</td>
 						</tr>
 						@endforeach
+						@endif
 					</tbody>
 				</table>
 			</div>
@@ -129,10 +130,10 @@
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Cart Sub Total <span>$59</span></li>
-							<li>Eco Tax <span>$2</span></li>
+							<li>Cart Sub Total <span>₹ {{$i}}</span></li>
+							<li>Eco Tax <span>₹ {{$totaltax}}</span></li>
 							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>$61</span></li>
+							<li>Total <span>₹ {{$total}}</span></li>
 						</ul>
 							<a class="btn btn-default update" href="">Update</a>
 							<a class="btn btn-default check_out" href="">Check Out</a>
@@ -141,4 +142,22 @@
 			</div>
 		</div>
 	</section><!--/#do_action-->
+	@section('js')
+<script>
+$(function(){
+  $(document).on('click', '.cart_quantity_delete', function(){
+		var j= $(this).data("value");
+		$.ajax({
+                type:'POST',
+                url:'{{route("removecart")}}',
+                data:{"_token": "{{ csrf_token() }}","id":j,
+                },
+                success: function( response ) {
+                  
+                }
+            });
+       })
+});
+	</script>
+@endsection
 @endsection

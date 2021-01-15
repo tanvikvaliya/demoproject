@@ -7,6 +7,10 @@
 	height:210px;
 	width:134px;
 }
+.banner{
+	height:441px;
+	width:484px;
+}
 	</style>
 @endsection
 <section id="slider"><!--slider-->
@@ -15,60 +19,34 @@
 				<div class="col-sm-12">
 					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
-							<li data-target="#slider-carousel" data-slide-to="0" class="active"></li>
-							<li data-target="#slider-carousel" data-slide-to="1"></li>
-							<li data-target="#slider-carousel" data-slide-to="2"></li>
+							@foreach($banner as $nav)
+							<li data-target="#slider-carousel" data-slide-to="{{$nav['id']}}" {{$loop->first ? "class=active": "" }}></li>
+							@endforeach
 						</ol>
-						
 						<div class="carousel-inner">
-							<div class="item active">
+							
+							@foreach($banner as $ban)
+							<div class="item {{$loop->first ? "active": "" }}">
 								<div class="col-sm-6">
 									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free E-Commerce Template</h2>
+									<h2>{{$ban['title']}}</h2>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
 									<button type="button" class="btn btn-default get">Get it now</button>
 								</div>
 								<div class="col-sm-6">
-									<img src="{{ asset('images/frontend/home/girl1.jpg') }}" class="girl img-responsive" alt="" />
+									<img class="banner" src="{{ asset('images/banner/'.$ban['img']) }}" class="girl img-responsive" alt="" />
 									<img src="{{ asset('images/frontend/home/pricing.png') }}"  class="pricing" alt="" />
 								</div>
 							</div>
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>100% Responsive Design</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{ asset('images/frontend/home/girl2.jpg') }}" class="girl img-responsive" alt="" />
-									<img src="{{ asset('images/frontend/home/pricing.png') }}"  class="pricing" alt="" />
-								</div>
-							</div>
-							
-							<div class="item">
-								<div class="col-sm-6">
-									<h1><span>E</span>-SHOPPER</h1>
-									<h2>Free Ecommerce Template</h2>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-									<button type="button" class="btn btn-default get">Get it now</button>
-								</div>
-								<div class="col-sm-6">
-									<img src="{{ asset('images/frontend/home/girl3.jpg') }}" class="girl img-responsive" alt="" />
-									<img src="{{ asset('images/frontend/home/pricing.png') }}" class="pricing" alt="" />
-								</div>
-							</div>
-							
+							@endforeach
 						</div>
-						
 						<a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
-							<i class="fa fa-angle-left"></i>
+						<i class="fa fa-angle-left"></i>
 						</a>
 						<a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
-							<i class="fa fa-angle-right"></i>
+						<i class="fa fa-angle-right"></i>
 						</a>
 					</div>
-					
 				</div>
 			</div>
 		</div>
@@ -172,7 +150,7 @@
 								</div>
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">
-										<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+										<li><a data-value="{{$pro['id']}}" class="btn add_wish" ><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
 										<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
 									</ul>
 								</div>
@@ -227,6 +205,18 @@ $(function(){
                 type:'POST',
                 url:'{{route("addcart")}}',
                 data:{"_token": "{{ csrf_token() }}","id":j,"qty":1,
+                },
+                success: function( response ) {
+                  
+                }
+            });
+       })
+	   $(document).on('click', '.add_wish', function(){
+		var k= $(this).data("value");
+		$.ajax({
+                type:'POST',
+                url:'{{route("wishlist.store")}}',
+                data:{"_token": "{{ csrf_token() }}","id":k,
                 },
                 success: function( response ) {
                   

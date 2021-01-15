@@ -4,6 +4,7 @@ namespace App\Http\Controllers\frontend;
 
 use App\Models\admin\Category;
 use App\Models\admin\Product;
+use App\Models\admin\Banner;
 use App\Models\admin\Product_images;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,7 @@ class HomepageController extends Controller
 {
     public function index(Request $request)
     {
+        $banner=Banner::all();
        //dd($request->category_id);
         $data=Category::whereNull('parent_id')->get();
         $selectedCategory=$request->category_id;
@@ -23,15 +25,13 @@ class HomepageController extends Controller
         ->whereHas('product_category', function($q) use($selectedCategory){if(isset($selectedCategory)){ $q->where('category_id',$selectedCategory);} })->where('quantity','!=','0')->get()->toArray();
         //dd($product);
         $data=$data->toArray();
-        
-        return view('pages.frontend.index',compact('data','product'));
+       // dd($banner);
+        return view('pages.frontend.index',compact('data','product','banner'));
     }
     public function contact(){
         return view('pages.frontend.contact_us');
     }
-    public function cart(){
-        return view('pages.frontend.cart');
-    }
+    
     public function siteerror(){
         return view('pages.frontend.404');
     }

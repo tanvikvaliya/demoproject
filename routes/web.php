@@ -48,5 +48,7 @@ Route::get('blog-single','frontend\HomepageController@blogsingle');
 Route::get('checkout','frontend\HomepageController@checkout');
 Route::get('shop','frontend\HomepageController@shop');
 Route::POST('addcart','frontend\CartController@getpro')->name('addcart');
+Route::POST('removecart','frontend\CartController@remove')->name('removecart');
+Route::resource('wishlist','frontend\WishlistController');
 
 

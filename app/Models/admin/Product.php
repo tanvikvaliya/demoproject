@@ -3,7 +3,6 @@
 namespace App\Models\admin;
 
 use Illuminate\Database\Eloquent\Model;
-
 class Product extends Model
 {
     public function product_images()

@@ -39,7 +39,7 @@
 				<div class="shop-menu pull-right">
 					<ul class="nav navbar-nav">
 						<li><a href="{{url('contact-us')}}"><i class="fa fa-phone"></i> Contact Us</a></li>
-						<li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+						<li><a href="{{url('wishlist')}}"><i class="fa fa-star"></i> Wishlist</a></li>
 						<li><a href="{{url('checkout')}}"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 						<li><a href="{{route('cart')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
 						@if(!empty(Auth::user()->username))
